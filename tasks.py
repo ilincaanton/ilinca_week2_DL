@@ -17,9 +17,18 @@ from sklearn import datasets
 
 # Copy and paste the code for that function here:
 # -----------------------------------------------
-def my_mlp():
-    pass  # replace with implementation
+def my_mlp(w, X, sigma=np.tanh):
+    # Weight matrices W1, W2, and W3
+    W1 = np.array(w[0:24]).reshape(4, 6)
+    W2 = np.array(w[24:52]).reshape(7, 4)
+    W3 = np.array(w[52:59]).reshape(1, 7)
 
+    # Implement the equations
+    a1 = sigma(W1 @ X)   # input -> layer 1
+    a2 = sigma(W2 @ a1)  # layer 1 -> layer 2
+    f  = sigma(W3 @ a2)  # layer 2 -> output
+
+    return f
 # -----------------------------------------------
 
 # Task 2: 
@@ -32,9 +41,10 @@ def my_mlp():
 
 # Copy and paste the code for that function here:
 # -----------------------------------------------
-def MSE_func():
-    pass  # replace with implementation
-
+def MSE_func(w, X, y):
+    f = my_mlp(w, X)
+    MSE = np.sum((f - y) ** 2)
+    return MSE
 # -----------------------------------------------
 
 # Task 3: 
@@ -49,7 +59,8 @@ def MSE_func():
 
 # Copy and paste the code for that function here:
 # -----------------------------------------------
-def dR():
-    pass  # replace with implementation
-
+def dR(beta, x, y):
+    dbeta_0 = 2/len(x) * np.sum(beta[0] + beta[1]*x - y)        
+    dbeta_1 = 2/len(x) * np.sum((beta[0] + beta[1]*x - y) * x)  
+    return np.array([dbeta_0, dbeta_1])
 # -----------------------------------------------
